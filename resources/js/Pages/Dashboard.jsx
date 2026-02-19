@@ -7,7 +7,7 @@ export default function Dashboard({ user }) {
         <AuthenticatedLayout authUser={user}>
             <Head title="Dashboard" />
 
-            <div className="py-12">
+            <div className="">
                 <AdminSidebar />
             </div>
         </AuthenticatedLayout>

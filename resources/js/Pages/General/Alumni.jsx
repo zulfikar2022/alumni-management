@@ -6,7 +6,7 @@ export default function Alumni({ user = {} }) {
         <GeneralLayout user={user}>
             <Head title="Alumni" />
             <div>
-                <h1>Alumnie</h1>
+                <h1 className="text-black">Alumni</h1>
             </div>
         </GeneralLayout>
     );

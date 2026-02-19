@@ -7,7 +7,7 @@ import { useState } from "react";
 
 export default function AuthenticatedLayout({ children, authUser = {} }) {
     const user = usePage().props.auth.user;
-    console.log(authUser);
+    // console.log(authUser);
 
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);

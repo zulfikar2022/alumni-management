@@ -7,7 +7,7 @@ export default function MyProfile({ user = {} }) {
         <GeneralLayout user={user}>
             <Head title="My Profile" />
             <div>
-                <h1>My Profile</h1>
+                <h1 className="text-black">My Profile</h1>
             </div>
         </GeneralLayout>
     );
