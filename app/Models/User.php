@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -39,6 +40,20 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
+
+    public function university(): BelongsTo
+    {
+        return $this->belongsTo(University::class);
+
+    }
+    public function department(): BelongsTo
+    {
+        return $this->belongsTo(Department::class);
+    }
+    public function university_session()
+    {
+        return $this->belongsTo(UniversitySession::class);
+    }
     protected function casts(): array
     {
         return [
@@ -47,6 +62,7 @@ class User extends Authenticatable
             'is_admin' => 'boolean',
             'is_university_moderator' => 'boolean',
             'is_department_moderator' => 'boolean',
+            'is_session_moderator' => 'boolean',
             'is_deleted' => 'boolean',
             'is_approved' => 'boolean',
             'show_phone_number' => 'boolean',

@@ -1,15 +1,22 @@
-import ApplicationLogo from '@/Components/ApplicationLogo';
-import Dropdown from '@/Components/Dropdown';
-import NavLink from '@/Components/NavLink';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
-import { Link, usePage } from '@inertiajs/react';
-import { useState } from 'react';
+import ApplicationLogo from "@/Components/ApplicationLogo";
+import Dropdown from "@/Components/Dropdown";
+import NavLink from "@/Components/NavLink";
+import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
+import { Link, usePage } from "@inertiajs/react";
+import { useState } from "react";
 
-export default function AuthenticatedLayout({ children }) {
+export default function AuthenticatedLayout({ children, authUser = {} }) {
     const user = usePage().props.auth.user;
+    console.log(authUser);
 
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
+    const showDashboard =
+        authUser &&
+        (authUser?.is_admin ||
+            authUser?.is_session_moderator ||
+            authUser?.is_department_modrator ||
+            authUser?.is_university_moderator);
 
     return (
         <div className="min-h-screen bg-gray-100">
@@ -18,18 +25,44 @@ export default function AuthenticatedLayout({ children }) {
                     <div className="flex h-16 justify-between">
                         <div className="flex">
                             <div className="flex shrink-0 items-center">
-                                <Link href="/">
+                                <Link href={route("user.my-profile")}>
                                     <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
                                 </Link>
                             </div>
-                               <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink
-                                    href={route('dashboard')}
-                                    active={route().current('dashboard')}
+                                    href={route("user.my-profile")}
+                                    active={route().current("user.my-profile")}
                                 >
-                                    Dashboard
+                                    My Profile
                                 </NavLink>
-                                   
+                                {authUser?.is_approved && (
+                                    <NavLink
+                                        href={route("user.alumni")}
+                                        active={route().current("user.alumni")}
+                                    >
+                                        Alumni
+                                    </NavLink>
+                                )}
+                                {authUser?.is_approved && (
+                                    <NavLink
+                                        href={route("user.messages")}
+                                        active={route().current(
+                                            "user.messages",
+                                        )}
+                                    >
+                                        Messages
+                                    </NavLink>
+                                )}
+
+                                {authUser?.is_approved && showDashboard && (
+                                    <NavLink
+                                        href={route("dashboard")}
+                                        active={route().current("dashboard")}
+                                    >
+                                        Dashboard
+                                    </NavLink>
+                                )}
                             </div>
                         </div>
 
@@ -61,13 +94,13 @@ export default function AuthenticatedLayout({ children }) {
                                     </Dropdown.Trigger>
 
                                     <Dropdown.Content>
-                                        <Dropdown.Link
-                                            href={route('profile.edit')}
+                                        {/* <Dropdown.Link
+                                            href={route("profile.edit")}
                                         >
                                             Profile
-                                        </Dropdown.Link>
+                                        </Dropdown.Link> */}
                                         <Dropdown.Link
-                                            href={route('logout')}
+                                            href={route("logout")}
                                             method="post"
                                             as="button"
                                         >
@@ -96,8 +129,8 @@ export default function AuthenticatedLayout({ children }) {
                                     <path
                                         className={
                                             !showingNavigationDropdown
-                                                ? 'inline-flex'
-                                                : 'hidden'
+                                                ? "inline-flex"
+                                                : "hidden"
                                         }
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
@@ -107,8 +140,8 @@ export default function AuthenticatedLayout({ children }) {
                                     <path
                                         className={
                                             showingNavigationDropdown
-                                                ? 'inline-flex'
-                                                : 'hidden'
+                                                ? "inline-flex"
+                                                : "hidden"
                                         }
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
@@ -123,17 +156,41 @@ export default function AuthenticatedLayout({ children }) {
 
                 <div
                     className={
-                        (showingNavigationDropdown ? 'block' : 'hidden') +
-                        ' sm:hidden'
+                        (showingNavigationDropdown ? "block" : "hidden") +
+                        " sm:hidden"
                     }
                 >
                     <div className="space-y-1 pb-3 pt-2">
                         <ResponsiveNavLink
-                            href={route('dashboard')}
-                            active={route().current('dashboard')}
+                            href={route("user.my-profile")}
+                            active={route().current("user.my-profile")}
                         >
-                            Dashboard
+                            My Profile
                         </ResponsiveNavLink>
+                        {authUser?.is_approved && (
+                            <ResponsiveNavLink
+                                href={route("user.alumni")}
+                                active={route().current("user.alumni")}
+                            >
+                                Alumni
+                            </ResponsiveNavLink>
+                        )}
+                        {authUser?.is_approved && (
+                            <ResponsiveNavLink
+                                href={route("user.messages")}
+                                active={route().current("user.messages")}
+                            >
+                                Messages
+                            </ResponsiveNavLink>
+                        )}
+                        {authUser?.is_approved && showDashboard && (
+                            <ResponsiveNavLink
+                                href={route("dashboard")}
+                                active={route().current("dashboard")}
+                            >
+                                Dashboard
+                            </ResponsiveNavLink>
+                        )}
                     </div>
 
                     <div className="border-t border-gray-200 pb-1 pt-4">
@@ -147,12 +204,12 @@ export default function AuthenticatedLayout({ children }) {
                         </div>
 
                         <div className="mt-3 space-y-1">
-                            <ResponsiveNavLink href={route('profile.edit')}>
+                            <ResponsiveNavLink href={route("user.my-profile")}>
                                 Profile
                             </ResponsiveNavLink>
                             <ResponsiveNavLink
                                 method="post"
-                                href={route('logout')}
+                                href={route("logout")}
                                 as="button"
                             >
                                 Log Out
@@ -169,8 +226,16 @@ export default function AuthenticatedLayout({ children }) {
                     </div>
                 </header>
             )} */}
-
-            <main>{children}</main>
+            {!authUser?.is_approved && (
+                <div className="bg-orange-400 my-2 container mx-auto px-3 py-1 rounded-lg">
+                    <p>
+                        Your profile has not been approved by any admin. You
+                        have to wait to see alumni data until an admin approve
+                        you.
+                    </p>
+                </div>
+            )}
+            <main className="container mx-auto">{children}</main>
         </div>
     );
 }

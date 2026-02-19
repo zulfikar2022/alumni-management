@@ -14,4 +14,9 @@ class University extends Model
             'is_deleted' => 'boolean',
         ];
     }
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }
