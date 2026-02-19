@@ -10,7 +10,8 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -43,6 +44,14 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_admin' => 'boolean',
+            'is_university_moderator' => 'boolean',
+            'is_department_moderator' => 'boolean',
+            'is_deleted' => 'boolean',
+            'is_approved' => 'boolean',
+            'show_phone_number' => 'boolean',
+            'show_whatsapp_number' => 'boolean',
+            'social_links' => 'array',
         ];
     }
 }

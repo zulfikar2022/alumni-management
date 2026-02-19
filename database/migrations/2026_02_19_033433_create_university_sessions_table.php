@@ -10,12 +10,11 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('departments', function (Blueprint $table) {
+        Schema::create('university_sessions', function (Blueprint $table) {
             $table->id();
-            // university_id, name, short_name, is_deleted
             $table->foreignId('university_id')->constrained('universities')->onDelete('cascade');
-            $table->string('name');
-            $table->string('short_name')->nullable();
+            // the data type of the session column can either be string or integer depending on how you want to represent the session (e.g., "2021-2022" or "2021")
+            $table->string('session');
             $table->boolean('is_deleted')->default(false);
             $table->timestamps();
         });
@@ -26,6 +25,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('departments');
+        Schema::dropIfExists('university_sessions');
     }
 };
