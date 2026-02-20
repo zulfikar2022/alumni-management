@@ -9,7 +9,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/dashboard/admin/add-university', [AdminController::class, 'addUniversity'])->name('admin.add-university');
 
-    Route::get('/dashboard/admin/all-users', [AdminController::class, 'allUsers']);
+    Route::post('/dashboard/admin/store-university', [AdminController::class, 'storeUniversity'])->name('admin.store-university');
+
+    Route::get('/dashboard/admin/all-users', [AdminController::class, 'allUsers'])->name('admin.all-users');
 
     // Add more admin routes here
 });

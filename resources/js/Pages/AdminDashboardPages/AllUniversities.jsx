@@ -2,6 +2,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 
 export default function AllUniversities({ universities = [], user = {} }) {
+    console.log(universities);
     return (
         <AuthenticatedLayout authUser={user}>
             <Head title="All Universities" />

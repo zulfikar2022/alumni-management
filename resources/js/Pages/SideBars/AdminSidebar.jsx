@@ -38,12 +38,16 @@ export default function AdminSidebar() {
                         </Link>
                     </li>
                     <li className="ml-2">
-                        <Link className="">Add New University</Link>
+                        <Link href={route("admin.add-university")} className="">
+                            Add New University
+                        </Link>
                     </li>
 
                     <li className="font-bold text-lg ml-2">User Management</li>
                     <li className="ml-2">
-                        <Link className="">See All Users</Link>
+                        <Link href={route("admin.all-users")} className="">
+                            See All Users
+                        </Link>
                     </li>
                 </ul>
             </div>

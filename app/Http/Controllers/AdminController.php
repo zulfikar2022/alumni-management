@@ -10,7 +10,7 @@ use Inertia\Inertia;
 
 class AdminController extends Controller
 {
-    public function allUniversities($request)
+    public function allUniversities(Request $request)
     {
         $user = Auth::user();
         $search = $request->query('search');
@@ -29,12 +29,36 @@ class AdminController extends Controller
         return Inertia::render('AdminDashboardPages/AddUniversity', ['user' => $user]);
     }
 
+
+
     public function storeUniversity(Request $request)
     {
-        dd("need to implement");
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'short_name' => 'required|string|max:50',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120', // সর্বোচ্চ 5 মেগাবাইট
+        ]);
+
+        $imagePath = null;
+
+        // ২. ইমেজ হ্যান্ডেলিং
+        if ($request->hasFile('image')) {
+            // 'private' ডিস্কে 'institutions' ফোল্ডারে ইমেজটি স্টোর হবে
+            // এটি storage/app/private/institutions পাথে সেভ হবে
+            $imagePath = $request->file('image')->store('institutions', 'public');
+        }
+
+        // ৩. ডাটাবেসে সেভ করা
+        University::create([
+            'name' => $request->name,
+            'short_name' => $request->short_name,
+            'logo_url' => $imagePath, // পাউথটি ডাটাবেসে সেভ করে রাখা হচ্ছে
+        ]);
+
+        return redirect()->route('admin.all-universities')->with('success', 'University added successfully!');
     }
 
-    public function allUsers($request)
+    public function allUsers(Request $request)
     {
         $user = Auth::user();
         $search = $request->query('search');
@@ -58,4 +82,6 @@ class AdminController extends Controller
         // $users = User::where('is_deleted', false)->get();
         return Inertia::render('AdminDashboardPages/AllUsers', ['users' => $users, 'user' => $user]);
     }
+
+
 }

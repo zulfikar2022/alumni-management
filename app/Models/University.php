@@ -8,6 +8,12 @@ class University extends Model
 {
     //
 
+    protected $fillable = [
+        'name',
+        'short_name',
+        'logo_url',
+    ];
+
     protected function casts(): array
     {
         return [

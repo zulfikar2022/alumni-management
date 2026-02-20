@@ -1,6 +1,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
 export default function AllUsers({ user = {}, users = [] }) {
+    console.log(users);
     return (
         <AuthenticatedLayout authUser={user}>
             <div>
