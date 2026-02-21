@@ -59,48 +59,63 @@ export default function AllUniversities({
                 {/* ইউনিভার্সিটি গ্রিড */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {universities.map((university) => (
-                        <>
-                            <div
-                                key={university?.id}
-                                className="flex items-center gap-6 border-2 rounded-lg border-black p-4 bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
-                            >
-                                <div className="w-20 h-20 flex-shrink-0 border-2 border-black p-1">
-                                    <img
-                                        src={`/storage/${university.logo_url}`}
-                                        alt="Logo"
-                                        className="w-full h-full object-contain filter grayscale"
-                                    />
-                                </div>
-                                <div className="flex-1">
-                                    <h2 className="text-lg font-black uppercase leading-tight text-black">
-                                        {university.name}
-                                    </h2>
-                                    <p className="text-xs font-bold text-gray-500 mt-1">
-                                        {university.short_name}
-                                    </p>
-                                    <div className="text-black flex gap-2">
-                                        <Link className="border border-black p-1 rounded">
-                                            Edit
-                                        </Link>
-                                        <Link
-                                            href={route(
-                                                "admin.add-departments",
-                                                university?.id,
-                                            )}
-                                            className="border border-black p-1 rounded"
-                                        >
-                                            Add Departments
-                                        </Link>
-                                        <Link className="border border-black p-1 rounded">
-                                            Add Sessions
-                                        </Link>
-                                        <Link className="border border-black p-1 rounded">
-                                            See Details
-                                        </Link>
-                                    </div>
+                        <div
+                            key={university?.id}
+                            className="flex items-center gap-6 border-2 rounded-lg border-black p-4 bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
+                        >
+                            <div className="w-20 h-20 flex-shrink-0 border-2 border-black p-1">
+                                <img
+                                    src={`/storage/${university.logo_url}`}
+                                    alt="Logo"
+                                    className="w-full h-full object-contain filter "
+                                />
+                            </div>
+                            <div className="flex-1">
+                                <h2 className="text-lg font-black uppercase leading-tight text-black">
+                                    {university.name}
+                                </h2>
+                                <p className="text-xs font-bold text-gray-500 mt-1">
+                                    {university.short_name}
+                                </p>
+                                <div className="text-black flex gap-2">
+                                    <Link
+                                        href={route("admin.edit-university", {
+                                            university: university.id,
+                                        })}
+                                        className="border border-black p-1 rounded"
+                                    >
+                                        Edit
+                                    </Link>
+                                    <Link
+                                        href={route(
+                                            "admin.add-departments",
+                                            university?.id,
+                                        )}
+                                        className="border border-black p-1 rounded"
+                                    >
+                                        Add Departments
+                                    </Link>
+                                    <Link
+                                        href={route(
+                                            "admin.add-sessions",
+                                            university?.id,
+                                        )}
+                                        className="border border-black p-1 rounded"
+                                    >
+                                        Add Sessions
+                                    </Link>
+                                    <Link
+                                        href={route(
+                                            "admin.see-university-details",
+                                            university?.id,
+                                        )}
+                                        className="border border-black p-1 rounded"
+                                    >
+                                        See Details
+                                    </Link>
                                 </div>
                             </div>
-                        </>
+                        </div>
                     ))}
                 </div>
 

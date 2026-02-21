@@ -23,6 +23,20 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_admin',
+        'is_university_moderator',
+        'is_department_moderator',
+        'is_session_moderator',
+        'is_deleted',
+        'is_approved',
+        'show_phone_number',
+        'show_whatsapp_number',
+        'phone_number',
+        'whatsapp_number',
+        'university_id',
+        'department_id',
+        'university_session_id',
+        'social_links',
     ];
 
     /**
@@ -43,16 +57,16 @@ class User extends Authenticatable
 
     public function university(): BelongsTo
     {
-        return $this->belongsTo(University::class);
+        return $this->belongsTo(University::class)->where('is_deleted', false);
 
     }
     public function department(): BelongsTo
     {
-        return $this->belongsTo(Department::class);
+        return $this->belongsTo(Department::class)->where('is_deleted', false);
     }
     public function university_session()
     {
-        return $this->belongsTo(UniversitySession::class);
+        return $this->belongsTo(UniversitySession::class)->where('is_deleted', false);
     }
     protected function casts(): array
     {

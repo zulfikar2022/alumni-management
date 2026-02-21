@@ -8,6 +8,12 @@ class Department extends Model
 {
     //
 
+    protected $fillable = [
+        'university_id',
+        'name',
+        'short_name',
+    ];
+
     protected function casts(): array
     {
         return [
@@ -17,6 +23,11 @@ class Department extends Model
 
     public function users()
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(User::class)->where('is_deleted', false);
+    }
+
+    public function university()
+    {
+        return $this->belongsTo(University::class)->where('is_deleted', false);
     }
 }

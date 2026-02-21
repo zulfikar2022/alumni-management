@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
 use App\Models\University;
+use App\Models\UniversitySession;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class AdminController extends Controller
 {
@@ -96,5 +100,121 @@ class AdminController extends Controller
         return Inertia::render('AdminDashboardPages/AddDepartments', ['user' => Auth::user(), 'university' => $university]);
     }
 
+    public function storeDepartments(Request $request, University $university)
+    {
+        $request->validate([
+            'university_id' => 'required|exists:universities,id',
+            'departments' => 'required|array|min:1',
+            'departments.*.name' => 'required|string|max:255',
+            'departments.*.short_name' => 'required|string|max:50',
+        ]);
+        // dd($request->all(), $university);
+
+        foreach ($request->departments as $deptData) {
+            // আপনি যদি সরাসরি রিলেশনশিপ ইউজ করতে চান
+            // University::find($request->university_id)->departments()->create($deptData);
+
+            Department::create([
+                'university_id' => $university->id,
+                'name' => $deptData['name'],
+                'short_name' => $deptData['short_name'],
+            ]);
+        }
+
+        return redirect()->route('admin.all-universities')->with('success', 'Departments added successfully!');
+    }
+
+    public function seeUniversityDetails(University $university)
+    {
+        $user = Auth::user();
+        $university->load('departments');
+        $university->load('sessions');
+        return Inertia::render('AdminDashboardPages/SeeUniversityDetails', ['university' => $university, 'user' => $user]);
+    }
+
+    public function addSessions(University $university)
+    {
+        return Inertia::render('AdminDashboardPages/AddSessions', ['user' => Auth::user(), 'university' => $university]);
+    }
+
+    public function storeSessions(Request $request, University $university)
+    {
+        $request->validate([
+            'sessions' => 'required|array|min:1',
+            'sessions.*.session' => 'required|string|max:255',
+        ]);
+
+        // dd($request->all(), $university);
+
+        foreach ($request->sessions as $sessionData) {
+            UniversitySession::create([
+                'university_id' => $university->id,
+                'session' => $sessionData['session'],
+            ]);
+        }
+
+        return redirect()->route('admin.see-university-details', $university)->with('success', 'Sessions added successfully!');
+    }
+
+    public function editUniversity(University $university)
+    {
+        return Inertia::render('AdminDashboardPages/EditUniversity', ['user' => Auth::user(), 'university' => $university]);
+    }
+
+
+    public function updateUniversity(Request $request, University $university)
+    {
+        // ১. ভ্যালিডেশন
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'short_name' => 'required|string|max:50',
+            'image' => 'nullable|image|max:5120',
+        ]);
+
+        // ২. আগের ডাটা আপডেট করা
+        $university->name = $request->name;
+        $university->short_name = $request->short_name;
+
+        // ৩. চেক করুন ইউজার নতুন ইমেজ আপলোড করেছে কি না
+        if ($request->hasFile('image')) {
+
+            // পুরানো ইমেজটি যদি ডাটাবেসে থাকে, তবে সেটি স্টোরেজ থেকে ডিলিট করুন
+            if ($university->logo_url) {
+                Storage::disk('public')->delete($university->logo_url);
+            }
+
+            // নতুন ইমেজটি সেভ করুন
+            $path = $request->file('image')->store('institutions', 'public');
+
+            // ডাটাবেসে নতুন পাথ সেট করুন
+            $university->logo_url = $path;
+        }
+
+        // ৪. ফাইনালি সেভ করা
+        $university->save();
+
+        return redirect()->route('admin.all-universities')->with('success', 'University updated successfully!');
+    }
+
+    public function editDepartment(Department $department)
+    {
+        $department->load('university');
+        // dd($department);
+        return Inertia::render('AdminDashboardPages/EditDepartments', ['user' => Auth::user(), 'department' => $department]);
+    }
+
+    public function updateDepartment(Request $request, Department $department)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'short_name' => 'required|string|max:50',
+        ]);
+
+        $department->name = $request->name;
+        $department->short_name = $request->short_name;
+        $department->save();
+
+        return redirect()->route('admin.see-university-details', $department->university)->with('success', 'Department updated successfully!');
+    }
 
 }

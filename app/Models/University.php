@@ -23,6 +23,16 @@ class University extends Model
 
     public function users()
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(User::class)->where('is_deleted', false);
+    }
+
+    public function departments()
+    {
+        return $this->hasMany(Department::class)->where('is_deleted', false);
+    }
+
+    public function sessions()
+    {
+        return $this->hasMany(UniversitySession::class);
     }
 }

@@ -15,5 +15,19 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/dashboard/admin/add-departments/{university}', [AdminController::class, 'addDepartments'])->name('admin.add-departments');
 
+    Route::post('/dashboard/admin/store-departments/{university}', [AdminController::class, 'storeDepartments'])->name('admin.store-departments');
+
+    Route::get('/dashboard/admin/university/{university}', [AdminController::class, 'seeUniversityDetails'])->name('admin.see-university-details');
+
+    Route::get('/dashboard/admin/university/{university}/sessions', [AdminController::class, 'addSessions'])->name('admin.add-sessions');
+    Route::post('/dashboard/admin/university/{university}/sessions', [AdminController::class, 'storeSessions'])->name('admin.store-sessions');
+
+    Route::get('/dashboard/admin/university/{university}/edit', [AdminController::class, 'editUniversity'])->name('admin.edit-university');
+
+    Route::put('/dashboard/admin/university/{university}', [AdminController::class, 'updateUniversity'])->name('admin.update-university');
+
+    Route::get('/dashboard/admin/department/{department}/edit', [AdminController::class, 'editDepartment'])->name('admin.edit-department');
+    Route::patch('/dashboard/admin/department/{department}', [AdminController::class, 'updateDepartment'])->name('admin.update-department');
+
     // Add more admin routes here
 });
