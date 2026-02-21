@@ -1,6 +1,6 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import React, { useState, useEffect } from "react";
-import { useForm } from "@inertiajs/react";
+import { Head, useForm } from "@inertiajs/react";
 
 export default function AddUniversity({ user = {} }) {
     const { data, setData, post, processing, errors, progress } = useForm({
@@ -44,6 +44,7 @@ export default function AddUniversity({ user = {} }) {
 
     return (
         <AuthenticatedLayout authUser={user}>
+            <Head title="Add University" />
             <div className="flex justify-center items-center min-h-[85vh] px-4 py-8 text-black">
                 <div className="card w-full max-w-lg bg-white border border-black  shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-lg">
                     <div className="card-body">

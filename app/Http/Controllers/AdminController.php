@@ -14,11 +14,19 @@ class AdminController extends Controller
     {
         $user = Auth::user();
         $search = $request->query('search');
+        // $universities = University::where('is_deleted', false)
+        //     ->when($search, function ($query, $search) {
+        //         return $query->where('name', 'like', '%' . $search . '%')->orWhere('short_name', 'like', '%' . $search . '%');
+        //     })
+        //     ->get();
         $universities = University::where('is_deleted', false)
-            ->when($search, function ($query, $search) {
-                return $query->where('name', 'like', '%' . $search . '%')->orWhere('short_name', 'like', '%' . $search . '%');
-            })
-            ->get();
+        ->when($search, function ($query, $search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')
+                  ->orWhere('short_name', 'like', '%' . $search . '%');
+            });
+        })
+        ->get();
         return Inertia::render('AdminDashboardPages/AllUniversities', ['universities' => $universities, 'user' => $user]);
 
     }
@@ -81,6 +89,11 @@ class AdminController extends Controller
 
         // $users = User::where('is_deleted', false)->get();
         return Inertia::render('AdminDashboardPages/AllUsers', ['users' => $users, 'user' => $user]);
+    }
+
+    public function addDepartments(Request $request, University $university)
+    {
+        return Inertia::render('AdminDashboardPages/AddDepartments', ['user' => Auth::user(), 'university' => $university]);
     }
 
 

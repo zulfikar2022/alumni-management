@@ -13,5 +13,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/dashboard/admin/all-users', [AdminController::class, 'allUsers'])->name('admin.all-users');
 
+    Route::get('/dashboard/admin/add-departments/{university}', [AdminController::class, 'addDepartments'])->name('admin.add-departments');
+
     // Add more admin routes here
 });
