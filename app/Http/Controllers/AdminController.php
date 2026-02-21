@@ -38,6 +38,7 @@ class AdminController extends Controller
     public function addUniversity()
     {
         $user = Auth::user();
+
         return Inertia::render('AdminDashboardPages/AddUniversity', ['user' => $user]);
     }
 
@@ -106,7 +107,7 @@ class AdminController extends Controller
             'university_id' => 'required|exists:universities,id',
             'departments' => 'required|array|min:1',
             'departments.*.name' => 'required|string|max:255',
-            'departments.*.short_name' => 'required|string|max:50',
+            'departments.*.short_name' => 'nullable|string|max:50',
         ]);
         // dd($request->all(), $university);
 
@@ -207,7 +208,7 @@ class AdminController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'short_name' => 'required|string|max:50',
+            'short_name' => 'nullable|string|max:50',
         ]);
 
         $department->name = $request->name;
@@ -215,6 +216,42 @@ class AdminController extends Controller
         $department->save();
 
         return redirect()->route('admin.see-university-details', $department->university)->with('success', 'Department updated successfully!');
+    }
+
+    public function deleteDepartment(Department $department)
+    {
+        $department->is_deleted = true;
+        $department->save();
+
+        // find users who have department_id equal to the deleted department's id and set their department_id to null
+        User::where('department_id', $department->id)->update(['department_id' => null]);
+
+        return redirect()->route('admin.see-university-details', $department->university)->with('success', 'Department deleted successfully!');
+    }
+
+    public function updateSession(Request $request, UniversitySession $session)
+    {
+        $request->validate([
+            'session_name' => 'required|string|max:255',
+        ]);
+
+        // dd($request->all(), $session);
+
+        $session->session = $request->session_name;
+        $session->save();
+
+        return redirect()->route('admin.see-university-details', $session->university)->with('success', 'Session updated successfully!');
+    }
+
+    public function deleteSession(UniversitySession $session)
+    {
+        $session->is_deleted = true;
+        $session->save();
+
+        // find users who have university_session_id equal to the deleted session's id and set their university_session_id to null
+        User::where('university_session_id', $session->id)->update(['university_session_id' => null]);
+
+        return redirect()->route('admin.see-university-details', $session->university)->with('success', 'Session deleted successfully!');
     }
 
 }

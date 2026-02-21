@@ -29,5 +29,13 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard/admin/department/{department}/edit', [AdminController::class, 'editDepartment'])->name('admin.edit-department');
     Route::patch('/dashboard/admin/department/{department}', [AdminController::class, 'updateDepartment'])->name('admin.update-department');
 
+    Route::delete('/dashboard/admin/department/{department}', [AdminController::class, 'deleteDepartment'])->name('admin.delete-department');
+
+    // update session
+    Route::patch('/dashboard/admin/session/{session}/update', [AdminController::class, 'updateSession'])->name('admin.update-session');
+
+    // delete session
+    Route::delete('/dashboard/admin/session/{session}/delete', [AdminController::class, 'deleteSession'])->name('admin.delete-session');
+
     // Add more admin routes here
 });

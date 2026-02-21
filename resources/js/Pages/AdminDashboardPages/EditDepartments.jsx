@@ -12,7 +12,6 @@ export default function EditDepartments({ user = {}, department = {} }) {
     const submit = (e) => {
         e.preventDefault();
         // ডিপার্টমেন্ট আপডেট করার জন্য PATCH রিকোয়েস্ট
-        console.log(data);
         patch(route("admin.update-department", department.id));
     };
 

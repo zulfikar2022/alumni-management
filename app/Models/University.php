@@ -33,6 +33,6 @@ class University extends Model
 
     public function sessions()
     {
-        return $this->hasMany(UniversitySession::class);
+        return $this->hasMany(UniversitySession::class)->where('is_deleted', false);
     }
 }

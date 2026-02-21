@@ -77,7 +77,7 @@ export default function AllUniversities({
                                 <p className="text-xs font-bold text-gray-500 mt-1">
                                     {university.short_name}
                                 </p>
-                                <div className="text-black flex gap-2">
+                                <div className="text-black flex gap-2 flex-wrap ">
                                     <Link
                                         href={route("admin.edit-university", {
                                             university: university.id,

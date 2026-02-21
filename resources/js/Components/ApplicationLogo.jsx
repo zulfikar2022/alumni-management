@@ -1,7 +1,21 @@
 export default function ApplicationLogo(props) {
+    const { imagePath } = props;
+    console.log(imagePath);
+    const otherProps = { ...props };
+    delete otherProps.imagePath; // imagePath কে অন্যProps থেকে সরিয়ে ফেলুন
+    if (imagePath) {
+        return (
+            <img
+                {...otherProps}
+                src={`/storage/${imagePath}`} // স্টোরেজ থেকে ইমেজ লোড করুন
+                alt="Application Logo"
+                className="h-16 w-auto"
+            />
+        );
+    }
     return (
         <svg
-            {...props}
+            {...otherProps}
             viewBox="0 0 316 316"
             xmlns="http://www.w3.org/2000/svg"
         >

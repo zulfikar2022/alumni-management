@@ -26,7 +26,12 @@ export default function AuthenticatedLayout({ children, authUser = {} }) {
                         <div className="flex">
                             <div className="flex shrink-0 items-center">
                                 <Link href={route("user.my-profile")}>
-                                    <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
+                                    <ApplicationLogo
+                                        imagePath={
+                                            authUser?.university?.logo_url
+                                        }
+                                        className="block h-9 w-auto fill-current text-gray-800"
+                                    />
                                 </Link>
                             </div>
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
