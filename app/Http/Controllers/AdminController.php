@@ -31,7 +31,9 @@ class AdminController extends Controller
             });
         })
         ->get();
-        return Inertia::render('AdminDashboardPages/AllUniversities', ['universities' => $universities, 'user' => $user]);
+        return Inertia::render('AdminDashboardPages/AllUniversities', ['universities' => $universities, 'user' => $user, 'filters' => [
+            'search' => $search,
+        ]]);
 
     }
 
@@ -96,7 +98,12 @@ class AdminController extends Controller
         })->with(['university', 'department', 'university_session'])->paginate(50)->withQueryString();
 
         // $users = User::where('is_deleted', false)->get();
-        return Inertia::render('AdminDashboardPages/AllUsers', ['users' => $users, 'user' => $user, 'universities' => $universities]);
+        return Inertia::render('AdminDashboardPages/AllUsers', ['users' => $users, 'user' => $user, 'universities' => $universities, 'filters' => [
+            'search' => $search,
+            'university_id' => $university_id,
+            'department_id' => $department_id,
+            'university_session_id' => $university_session_id,
+        ]]);
     }
 
     public function addDepartments(Request $request, University $university)

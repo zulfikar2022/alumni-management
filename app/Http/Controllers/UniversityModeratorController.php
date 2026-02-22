@@ -33,6 +33,12 @@ class UniversityModeratorController extends Controller
         $department = request()->query('department', );
         $university_session = request()->query('university_session', );
 
+        // dd($search, $department, $university_session);
+
+        $all_deaprtments = $university->departments()->get();
+        $all_university_sessions = $university->sessions()->get();
+        // dd($all_deaprtments, $all_university_sessions);
+
         $members = $university->users()
             ->when($search, function ($query, $search) {
                 $query->where(function ($query) use ($search) {
@@ -45,12 +51,20 @@ class UniversityModeratorController extends Controller
             })
             ->when($university_session, function ($query, $university_session) {
                 $query->where('university_session_id', $university_session);
-            })
-            ->get();
+            })->with('department', 'university_session')
+            ->paginate(50)->withQueryString();
+
 
         return Inertia::render('UniversityModeratorDashboardPages/AllMembers', [
             'user' => $user,
-            'members' => $members,
+            'data' => $members,
+            'departments' => $all_deaprtments,
+            'sessions' => $all_university_sessions,
+            'filters' => [
+                'search' => $search,
+                'department' => $department,
+                'university_session' => $university_session,
+            ],
         ]);
     }
 
