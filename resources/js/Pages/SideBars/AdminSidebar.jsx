@@ -10,7 +10,7 @@ export default function AdminSidebar() {
             />
             <div className="drawer-content ">
                 {/* Page content here */}
-                <div>content-1</div>
+                {/* <div>content-1</div> */}
                 <label
                     htmlFor="admin-dashboard-drawer"
                     className="drawer-button btn btn-primary bg-[#1d488a]"
