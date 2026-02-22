@@ -12,5 +12,13 @@ Route::middleware(['auth', 'university_moderator'])->group(function () {
 
     // all session moderators of university route
     Route::get('/dashboard/university-moderator/session-moderators', [UniversityModeratorController::class, 'allSessionModerators'])->name('university-moderator.session-moderators');
-    // Add more university moderator routes here
+
+    // member details
+    Route::get('/dashboard/university-moderator/members/{id}', [UniversityModeratorController::class, 'memberDetails'])->name('university-moderator.member-details');
+
+    // make session moderator
+    Route::get('/dashboard/university-moderator/members/{user}/make-session-moderator', [UniversityModeratorController::class, 'makeSessionModerator'])->name('university-moderator.make-session-moderator');
+
+    // remove session moderator
+    Route::get('/dashboard/university-moderator/members/{user}/remove-session-moderator', [UniversityModeratorController::class, 'removeSessionModerator'])->name('university-moderator.remove-session-moderator');
 });

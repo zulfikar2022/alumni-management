@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -13,7 +14,7 @@ class UniversityModeratorController extends Controller
         $user = Auth::user();
         $university = $user->university; // Assuming the user has a relationship with
         // Fetch all departments of the university
-        $departments = $university->departments; // Assuming the university has a relationship
+        $departments = $university->departments(); // Assuming the university has a relationship
         // I want to fetch the number of members in each department as well, so I will use the withCount method
         $departments = $university->departments()->withCount('users')->get();
 
@@ -98,5 +99,39 @@ class UniversityModeratorController extends Controller
             'user' => $user,
             'moderators' => $moderators,
         ]);
+    }
+
+    public function memberDetails($id)
+    {
+        $user = Auth::user();
+        $targetUser = $user->university->users()->where('id', $id)->with('department', 'university_session')->firstOrFail();
+        // dd($targetUser);
+
+        return Inertia::render('UniversityModeratorDashboardPages/MemberDetails', [
+            'user' => $user,
+            'targetUser' => $targetUser,
+        ]);
+    }
+
+    // make session moderator
+    public function makeSessionModerator(Request $request, User $user)
+    {
+        $user->is_session_moderator = true;
+        $user->is_approved = true; // Approve the user if they are being made a session moderator
+        $user->save();
+
+        $user = User::with('department', 'university_session')->find($user->id); // Refresh the user instance to get the latest data
+
+        return redirect()->route('university-moderator.member-details', $user->id)->with('success', 'User has been made a session moderator successfully.');
+    }
+
+    public function removeSessionModerator(Request $request, User $user)
+    {
+        $user->is_session_moderator = false;
+        $user->save();
+
+        $user = User::with('department', 'university_session')->find($user->id); // Refresh the user instance to get the latest data
+
+        return redirect()->route('university-moderator.member-details', $user->id)->with('success', 'User has been removed from session moderator successfully.');
     }
 }

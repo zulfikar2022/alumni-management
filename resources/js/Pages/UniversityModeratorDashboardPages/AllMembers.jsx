@@ -1,5 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, router } from "@inertiajs/react";
+import { Head, Link, router } from "@inertiajs/react";
 import { useState, useEffect, useRef } from "react";
 import Pagination from "@/Components/Pagination";
 
@@ -183,9 +183,15 @@ export default function AllMembers({
                                         )}
                                     </td>
                                     <td className="text-right">
-                                        <button className="underline hover:bg-black hover:text-white px-2 py-1 transition-all">
-                                            Manage
-                                        </button>
+                                        <Link
+                                            href={route(
+                                                "university-moderator.member-details",
+                                                member.id,
+                                            )}
+                                            className="underline hover:bg-black hover:text-white px-2 py-1 transition-all"
+                                        >
+                                            See Details
+                                        </Link>
                                     </td>
                                 </tr>
                             ))}
