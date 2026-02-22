@@ -10,8 +10,13 @@ class UserController extends Controller
 {
     public function myProfile(Request $request)
     {
+        $user = Auth::user();
+
+        $user->department;
+        $user->university_session;
+
         return inertia('General/MyProfile', [
-            'user' => Auth::user(),
+            'user' => $user,
         ]);
     }
 

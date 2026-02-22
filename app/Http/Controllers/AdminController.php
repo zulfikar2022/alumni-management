@@ -79,21 +79,24 @@ class AdminController extends Controller
         $department_id = $request->query('department_id');
         $university_session_id = $request->query('university_session_id');
 
-        $users = User::where('is_deleted', false)->when(
-            $search,
-            function ($q, $search) {
-                return $q->where('name', 'LIKE', "%{$search}%")->orWhere('email', 'LIKE', "%{$search}%")->orWhere('phone_number', 'Like', "%{$search}%")->orWhere('whatsapp_number', 'LIKE', "%{$search}%");
-            }
-        )->when($university_id, function ($q, $university_id) {
+        $universities = University::where('is_deleted', false)->get();
+
+        $users = User::where('is_deleted', false)
+        ->when($search, function ($q, $search) {
+            $q->where(function ($sub) use ($search) {
+                $sub->where('name', 'LIKE', "%{$search}%")
+                    ->orWhere('email', 'LIKE', "%{$search}%");
+            });
+        })->when($university_id, function ($q, $university_id) {
             return $q->where('university_id', $university_id);
         })->when($department_id, function ($q, $department_id) {
             return $q->where('department_id', $department_id);
         })->when($university_session_id, function ($q, $university_session_id) {
             return $q->where('university_session_id', $university_session_id);
-        })->get();
+        })->with(['university', 'department', 'university_session'])->paginate(50)->withQueryString();
 
         // $users = User::where('is_deleted', false)->get();
-        return Inertia::render('AdminDashboardPages/AllUsers', ['users' => $users, 'user' => $user]);
+        return Inertia::render('AdminDashboardPages/AllUsers', ['users' => $users, 'user' => $user, 'universities' => $universities]);
     }
 
     public function addDepartments(Request $request, University $university)
@@ -252,6 +255,29 @@ class AdminController extends Controller
         User::where('university_session_id', $session->id)->update(['university_session_id' => null]);
 
         return redirect()->route('admin.see-university-details', $session->university)->with('success', 'Session deleted successfully!');
+    }
+
+    public function seeUserDetails(User $user)
+    {
+        $user->load(['university', 'department', 'university_session']);
+        return Inertia::render('AdminDashboardPages/UserDetails', ['targetUser' => $user, 'user' => Auth::user()]);
+    }
+
+    public function makeUniversityModerator(User $user)
+    {
+        $user->is_approved = true;
+        $user->is_university_moderator = true;
+        $user->save();
+
+        return redirect()->route('admin.see-user-details', $user)->with('success', 'User has been made a university moderator successfully!');
+    }
+
+    public function removeUniversityModerator(User $user)
+    {
+        $user->is_university_moderator = false;
+        $user->save();
+
+        return redirect()->route('admin.see-user-details', $user)->with('success', 'User has been removed from university moderator role successfully!');
     }
 
 }

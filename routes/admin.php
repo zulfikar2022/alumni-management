@@ -37,5 +37,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // delete session
     Route::delete('/dashboard/admin/session/{session}/delete', [AdminController::class, 'deleteSession'])->name('admin.delete-session');
 
+    //user-details route
+    Route::get('/dashboard/admin/user/{user}', [AdminController::class, 'seeUserDetails'])->name('admin.see-user-details');
+
+    // make-univeristy-moderator route
+    Route::get('/dashboard/admin/user/{user}/make-university-moderator', [AdminController::class, 'makeUniversityModerator'])->name('admin.make-university-moderator');
+
+    // remove-university-moderator route
+    Route::get('/dashboard/admin/user/{user}/remove-university-moderator', [AdminController::class, 'removeUniversityModerator'])->name('admin.remove-university-moderator');
+
     // Add more admin routes here
 });

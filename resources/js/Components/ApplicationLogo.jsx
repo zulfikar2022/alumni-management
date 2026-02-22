@@ -1,6 +1,5 @@
 export default function ApplicationLogo(props) {
     const { imagePath } = props;
-    console.log(imagePath);
     const otherProps = { ...props };
     delete otherProps.imagePath; // imagePath কে অন্যProps থেকে সরিয়ে ফেলুন
     if (imagePath) {
