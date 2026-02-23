@@ -1,5 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head } from "@inertiajs/react";
+import { Head, router } from "@inertiajs/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faPhone,
@@ -7,8 +7,51 @@ import {
     faEnvelope,
     faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
+import Swal from "sweetalert2";
 
 export default function MemberDetails({ user = {}, member = {} }) {
+    // session-moderator.make-department-moderator
+    const handelMakeDepartmentModerator = () => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: `You are about to make ${member.name} a Department Moderator. This action will grant them additional permissions. Do you want to proceed?`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#000",
+            cancelButtonColor: "slategray",
+            confirmButtonText: "Yes, make them a department moderator!",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // send a get request to the named route with name  session-moderator.make-department-moderator
+                router.get(
+                    route("session-moderator.make-department-moderator", {
+                        member: member.id,
+                    }),
+                );
+            }
+        });
+    };
+
+    const handelRemoveDepartmentModerator = () => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: `You are about to remove ${member.name} from Department Moderator role. This action will revoke their department moderator permissions. Do you want to proceed?`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#000",
+            cancelButtonColor: "slategray",
+            confirmButtonText: "Yes, remove department moderator role!",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                router.get(
+                    route("session-moderator.remove-department-moderator", {
+                        member: member.id,
+                    }),
+                );
+            }
+        });
+    };
+
     return (
         <AuthenticatedLayout authUser={user}>
             <Head title={`Member Details - ${member.name}`} />
@@ -83,6 +126,22 @@ export default function MemberDetails({ user = {}, member = {} }) {
                                 {member.university_session?.session || "N/A"}
                             </span>
                         </div>
+                        {!member.is_department_moderator && (
+                            <button
+                                onClick={handelMakeDepartmentModerator}
+                                className=" hover:cursor-pointer border border-black px-4 py-2 rounded-md hover:bg-black hover:text-white transition-all"
+                            >
+                                Make Department Moderator
+                            </button>
+                        )}
+                        {member.is_department_moderator && (
+                            <button
+                                onClick={handelRemoveDepartmentModerator}
+                                className=" hover:cursor-pointer border border-red-500 px-4 py-2 rounded-md hover:bg-red-400 hover:text-white transition-all"
+                            >
+                                Remove Department Moderator
+                            </button>
+                        )}
 
                         <div className="flex items-center justify-center md:justify-start gap-2 text-sm font-bold pt-2">
                             <FontAwesomeIcon

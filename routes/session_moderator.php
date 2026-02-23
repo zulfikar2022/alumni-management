@@ -12,4 +12,10 @@ Route::middleware(['auth', 'session_moderator'])->group(function () {
     // membe details
     Route::get('/session-moderator/member/{member}', [UniversitySessionModeratorController::class, 'memberDetails'])->name('session-moderator.member-details');
 
+    // make department moderator
+    Route::get('/session-moderator/member/{member}/make-department-moderator', [UniversitySessionModeratorController::class, 'makeDepartmentModerator'])->name('session-moderator.make-department-moderator');
+
+    // remove department moderator
+    Route::get('/session-moderator/member/{member}/remove-department-moderator', [UniversitySessionModeratorController::class, 'removeDepartmentModerator'])->name('session-moderator.remove-department-moderator');
+
 });

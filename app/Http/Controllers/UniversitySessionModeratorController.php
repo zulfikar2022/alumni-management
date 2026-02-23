@@ -61,4 +61,19 @@ class UniversitySessionModeratorController extends Controller
             'user' => request()->user(),
         ]);
     }
+
+    public function makeDepartmentModerator(User $member)
+    {
+        $member->is_department_moderator = true;
+        $member->is_approved = true; // Approve the member when making them a department moderator
+        $member->save();
+        return redirect()->back();
+    }
+
+    public function removeDepartmentModerator(User $member)
+    {
+        $member->is_department_moderator = false;
+        $member->save();
+        return redirect()->back();
+    }
 }
