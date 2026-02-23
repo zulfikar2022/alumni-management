@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from "react";
 import Pagination from "@/Components/Pagination";
 
 export default function AllMembers({ user = {}, data = {}, filters = {} }) {
-    console.log(user);
     // ফিল্টার স্টেটসমূহ
     const [search, setSearch] = useState(filters.search || "");
     const [deptId, setDeptId] = useState(filters.department_id || "");

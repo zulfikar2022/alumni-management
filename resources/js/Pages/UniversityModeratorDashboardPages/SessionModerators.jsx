@@ -1,7 +1,6 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
 export default function SessionModerators({ user = {}, moderators = [] }) {
-    console.log(moderators);
     return (
         <AuthenticatedLayout authUser={user}>
             <div>

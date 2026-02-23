@@ -20,6 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
             'university_moderator' => \App\Http\Middleware\UniversityModeratorMiddleware::class,
             'session_moderator' => \App\Http\Middleware\UniversitySessionModeratorMiddleware::class,
+            'department_moderator' => \App\Http\Middleware\DepartmentMOderatorMiddleware::class,
         ]);
 
         //

@@ -14,7 +14,6 @@ import Swal from "sweetalert2";
 // user.update-profile-picture
 
 export default function MyProfile({ user = {} }) {
-    console.log("User Data:", user); // Debugging line to check the user data structure
     const [preview, setPreview] = useState(
         user.image_url ? `/storage/${user.image_url}` : null,
     );

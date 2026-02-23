@@ -9,7 +9,6 @@ import {
 import Swal from "sweetalert2";
 
 export default function MemberDetails({ user = {}, targetUser = {} }) {
-    console.log("Target User:", targetUser);
     const handleMakeSessionModerator = () => {
         // university-moderator.make-session-moderator
         Swal.fire({

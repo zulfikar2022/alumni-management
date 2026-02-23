@@ -45,9 +45,9 @@ class RegisteredUserController extends Controller
             'session_id' => 'nullable|exists:university_sessions,id',
         ]);
 
-        $university = University::find($request->university_id);
-        $department = Department::find($request->department_id);
-        $session = UniversitySession::find($request->session_id);
+        $university = University::findOrFail($request->university_id);
+        $department = Department::findOrFail($request->department_id);
+        $session = UniversitySession::findOrFail($request->session_id);
 
         if ($university->is_deleted || $department->is_deleted || $session->is_deleted) {
             return back()->withErrors(['university_id' => 'Invalid university, department, or session selection.']);

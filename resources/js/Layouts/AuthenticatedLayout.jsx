@@ -15,7 +15,7 @@ export default function AuthenticatedLayout({ children, authUser = {} }) {
         authUser &&
         (authUser?.is_admin ||
             authUser?.is_session_moderator ||
-            authUser?.is_department_modrator ||
+            authUser?.is_department_moderator ||
             authUser?.is_university_moderator);
 
     return (

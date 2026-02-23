@@ -115,6 +115,7 @@ export default function Register({ universities = [] }) {
                         value="Select Department"
                     />
                     <select
+                        required
                         id="department_id"
                         disabled={!departments.length}
                         className="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm disabled:bg-gray-100"
@@ -126,7 +127,8 @@ export default function Register({ universities = [] }) {
                         <option value=""> Select Department </option>
                         {departments.map((dept) => (
                             <option key={dept.id} value={dept.id}>
-                                {dept.name} ({dept.short_name})
+                                {dept.name}
+                                {dept.short_name && `(${dept.short_name})`}
                             </option>
                         ))}
                     </select>
@@ -140,6 +142,7 @@ export default function Register({ universities = [] }) {
                 <div className="mt-4">
                     <InputLabel htmlFor="session_id" value="Select Session" />
                     <select
+                        required
                         id="session_id"
                         disabled={!sessions.length}
                         className="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm disabled:bg-gray-100"
