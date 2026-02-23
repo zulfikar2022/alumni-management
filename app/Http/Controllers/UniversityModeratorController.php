@@ -93,7 +93,7 @@ class UniversityModeratorController extends Controller
             ->when($university_session, function ($query, $university_session) {
                 $query->where('university_session_id', $university_session);
             })
-            ->get();
+            ->with(['department', 'university_session'])->get();
 
         return Inertia::render('UniversityModeratorDashboardPages/SessionModerators', [
             'user' => $user,

@@ -10,12 +10,10 @@ export default function AllMembers({
     sessions = [],
     filters = {},
 }) {
-    console.log(filters);
-    // ফিল্টার স্টেটসমূহ
     const [search, setSearch] = useState(filters.search || "");
-    const [deptId, setDeptId] = useState(filters.department_id || "");
+    const [deptId, setDeptId] = useState(filters.department || "");
     const [uniSessionId, setUniSessionId] = useState(
-        filters.university_session_id || "",
+        filters.university_session || "",
     );
 
     const isFirstRender = useRef(true);
@@ -156,6 +154,28 @@ export default function AllMembers({
                                         </div>
                                         <div className="text-[9px] lowercase opacity-50 font-normal">
                                             {member.email}
+                                        </div>
+                                        <div className="flex flex-col md:flex-row gap-0 md:gap-3">
+                                            {member.is_admin && (
+                                                <span className="text-[9px]">
+                                                    {"ADMIN"}
+                                                </span>
+                                            )}
+                                            {member.is_university_moderator && (
+                                                <span className="text-[9px]">
+                                                    {"UNIVERSITY MODERATOR"}
+                                                </span>
+                                            )}
+                                            {member.is_session_moderator && (
+                                                <span className="text-[9px]">
+                                                    {"SESSION MODERATOR"}
+                                                </span>
+                                            )}
+                                            {member.is_department_moderator && (
+                                                <span>
+                                                    {"DEPARTMENT MODERATOR"}
+                                                </span>
+                                            )}
                                         </div>
                                     </td>
                                     <td>

@@ -15,7 +15,7 @@ export default function AdminSidebar() {
                     htmlFor="admin-dashboard-drawer"
                     className="drawer-button btn btn-primary bg-[#1d488a]"
                 >
-                    Open drawer
+                    Admin
                 </label>
             </div>
             <div className="drawer-side">

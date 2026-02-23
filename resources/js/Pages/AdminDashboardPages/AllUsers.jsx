@@ -10,7 +10,6 @@ export default function AllUsers({
     universities = [],
     filters = {},
 }) {
-    console.log(users.data);
     const [search, setSearch] = useState(filters.search || "");
     const [uniId, setUniId] = useState(filters.university_id || "");
     const [deptId, setDeptId] = useState(filters.department_id || "");

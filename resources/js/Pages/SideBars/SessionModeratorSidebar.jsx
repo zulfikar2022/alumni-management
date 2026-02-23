@@ -1,47 +1,34 @@
 import { Link } from "@inertiajs/react";
 
-export default function UniversityModeratorSideBar() {
+export default function SessionModeratorSidebar() {
     return (
-        <div className="drawer drawer-end ">
-            <input
-                id="university-moderator-sidebar"
-                type="checkbox"
-                className="drawer-toggle"
-            />
+        <div className="drawer drawer-end">
+            <input id="my-drawer-5" type="checkbox" className="drawer-toggle" />
             <div className="drawer-content">
                 {/* Page content here */}
                 <label
-                    htmlFor="university-moderator-sidebar"
+                    htmlFor="my-drawer-5"
                     className="drawer-button btn btn-primary bg-[#1d488a]"
                 >
-                    University Moderator
+                    Session Moderator
                 </label>
             </div>
             <div className="drawer-side">
                 <label
-                    htmlFor="university-moderator-sidebar"
+                    htmlFor="my-drawer-5"
                     aria-label="close sidebar"
                     className="drawer-overlay"
                 ></label>
                 <ul className="menu bg-[#1d488a] min-h-full w-80 p-4">
                     {/* Sidebar content here */}
                     <li>
-                        <Link href={route("university-moderator.departments")}>
+                        <Link href={route("session-moderator.all-departments")}>
                             All Departments
                         </Link>
                     </li>
                     <li>
-                        <Link href={route("university-moderator.members")}>
+                        <Link href={route("session-moderator.all-members")}>
                             All Members
-                        </Link>
-                    </li>
-                    <li>
-                        <Link
-                            href={route(
-                                "university-moderator.session-moderators",
-                            )}
-                        >
-                            Session Moderators
                         </Link>
                     </li>
                 </ul>

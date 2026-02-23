@@ -45,8 +45,8 @@ export default function AllDepartments({ user = {}, departments = [] }) {
                         <thead className="bg-black text-white uppercase text-xs tracking-widest border-none">
                             <tr className="border-none">
                                 <th>Department Name</th>
-                                <th>Short Name</th>
                                 <th>Stats</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
 
@@ -62,17 +62,7 @@ export default function AllDepartments({ user = {}, departments = [] }) {
                                             {dept.name}
                                         </span>
                                     </td>
-                                    <td>
-                                        {dept.short_name ? (
-                                            <span className="bg-black text-white px-2 py-0.5">
-                                                {dept.short_name}
-                                            </span>
-                                        ) : (
-                                            <span className="text-gray-300 italic">
-                                                N/A
-                                            </span>
-                                        )}
-                                    </td>
+
                                     <td>
                                         <div className="flex items-center gap-1">
                                             <span className="text-lg">👥</span>
@@ -80,6 +70,19 @@ export default function AllDepartments({ user = {}, departments = [] }) {
                                                 {dept.users_count || 0} Members
                                             </span>
                                         </div>
+                                    </td>
+                                    <td>
+                                        <Link
+                                            href={route(
+                                                "university-moderator.members",
+                                                {
+                                                    department: dept.id,
+                                                },
+                                            )}
+                                            className="underline hover:bg-black hover:text-white px-2 py-1 transition-all"
+                                        >
+                                            See Details
+                                        </Link>
                                     </td>
                                 </tr>
                             ))}

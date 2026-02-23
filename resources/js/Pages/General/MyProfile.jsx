@@ -14,6 +14,7 @@ import Swal from "sweetalert2";
 // user.update-profile-picture
 
 export default function MyProfile({ user = {} }) {
+    console.log("User Data:", user); // Debugging line to check the user data structure
     const [preview, setPreview] = useState(
         user.image_url ? `/storage/${user.image_url}` : null,
     );
@@ -124,6 +125,28 @@ export default function MyProfile({ user = {} }) {
                         <p className="font-bold text-gray-500 uppercase italic">
                             {user.university?.name}
                         </p>
+                        <div className="flex flex-wrap justify-center md:justify-start gap-2 mt-2">
+                            {user.is_admin && (
+                                <span className=" bg-[#7b797c] px-2 py-1 rounded-sm font-bold text-xs uppercase">
+                                    Admin
+                                </span>
+                            )}
+                            {user.is_university_moderator && (
+                                <span className=" bg-[#7b797c] px-2 py-1 rounded-sm font-bold text-xs uppercase">
+                                    University Moderator
+                                </span>
+                            )}
+                            {user.is_session_moderator && (
+                                <span className=" bg-[#7b797c] px-2 py-1 rounded-sm font-bold text-xs uppercase">
+                                    Session Moderator
+                                </span>
+                            )}
+                            {user.is_department_moderator && (
+                                <span className=" bg-[#7b797c] px-2 py-1 rounded-sm font-bold text-xs uppercase">
+                                    Department Moderator
+                                </span>
+                            )}
+                        </div>
                         <div className="flex flex-wrap justify-center md:justify-start gap-2 mt-4">
                             <span className="badge badge-outline rounded-lg border-black font-bold uppercase">
                                 {user.department?.short_name ||

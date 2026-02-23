@@ -21,4 +21,5 @@ Route::middleware(['auth', 'university_moderator'])->group(function () {
 
     // remove session moderator
     Route::get('/dashboard/university-moderator/members/{user}/remove-session-moderator', [UniversityModeratorController::class, 'removeSessionModerator'])->name('university-moderator.remove-session-moderator');
+
 });

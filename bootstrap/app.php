@@ -19,6 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
             'university_moderator' => \App\Http\Middleware\UniversityModeratorMiddleware::class,
+            'session_moderator' => \App\Http\Middleware\UniversitySessionModeratorMiddleware::class,
         ]);
 
         //
